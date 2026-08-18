@@ -33,7 +33,11 @@ html {
 }
 
 body {
-  background: var(--bg-deep);
+  /* Must stay transparent. Because `html` above carries a background, the
+     usual body-to-viewport background propagation no longer applies, so an
+     opaque body would paint as a normal box — on top of the z-index:-2
+     starfield — and hide every star. */
+  background: transparent;
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow-x: hidden;
