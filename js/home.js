@@ -23,7 +23,7 @@
     orbWrap.classList.add("launching");
 
     const DESTINATION = "projects.html";
-    const FALLBACK_DELAY = 950;
+    const FALLBACK_DELAY = 1100;
 
     let navigated = false;
     function goToProjects() {
@@ -32,7 +32,15 @@
       window.location.href = DESTINATION;
     }
 
-    orbWrap.addEventListener("transitionend", goToProjects, { once: true });
+    // transitionend fires once per animated property (top, left, transform).
+    // Wait for transform specifically — that's the one that finishes the
+    // orb at its final size, so navigating on any earlier event would cut
+    // the flight short.
+    orbWrap.addEventListener("transitionend", function onEnd(e) {
+      if (e.target !== orbWrap || e.propertyName !== "transform") return;
+      orbWrap.removeEventListener("transitionend", onEnd);
+      goToProjects();
+    });
     setTimeout(goToProjects, FALLBACK_DELAY);
   }
 

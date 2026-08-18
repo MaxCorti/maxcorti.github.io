@@ -7,6 +7,16 @@
   const stage = document.getElementById("orbitPerspective");
   if (!scrollSection || !stage || typeof PROJECTS === "undefined") return;
 
+  // Arriving from the home page, the orb has just flown into the corner —
+  // a browser-restored scroll offset would drop us mid-gallery and break
+  // that continuity. Only forced on that entry path, so returning from a
+  // project detail page still keeps your place.
+  const cameFromHome = /(^|\/)index\.html$|\/$/.test(document.referrer || "");
+  if (cameFromHome) {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }
+
   const count = PROJECTS.length;
   scrollSection.style.setProperty("--orbit-count", String(count));
 

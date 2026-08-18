@@ -26,6 +26,12 @@ html, body {
   min-height: 100%;
 }
 
+/* Painted on the root so the browser never flashes white between pages
+   while the next document is still parsing. */
+html {
+  background: var(--bg-deep);
+}
+
 body {
   background: var(--bg-deep);
   color: var(--text-primary);
