@@ -15,13 +15,18 @@
   const VH = () => window.innerHeight;
   const SLOT = () => VH() * 0.85;
 
+  const LEFT_BIAS_VW = 3; // slight leftward rest position at the far ends of the arc
+  const RIGHT_BULGE_VW = 15; // how far right it swings when centered
+  const REDUCE_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SNAP_IDLE_MS = 140;
+
   const items = PROJECTS.map((project, i) => {
     const el = document.createElement("div");
     el.className = "orbit-item";
     el.dataset.index = String(i);
     el.innerHTML = `
       <div class="orbit-item__title">${escapeHtml(project.title)}</div>
-      <span class="orbit-item__cta">View project →</span>
+      <span class="orbit-item__cta" aria-hidden="true">&gt;</span>
     `;
     el.addEventListener("click", () => {
       if (el.classList.contains("is-active")) {
@@ -60,7 +65,9 @@
       const opacity = Math.max(0, Math.pow(cosT, 1.4));
       const z = -460 * (1 - cosT);
       const y = -sinT * 46; // vh units, applied below
-      const x = (1 - cosT) * 8; // vw units — bows the arc to one side
+      // Arc bows right: slightly left of center at the far ends,
+      // sweeping to its rightmost point exactly when centered.
+      const x = -LEFT_BIAS_VW + RIGHT_BULGE_VW * cosT;
       const blur = (1 - cosT) * 5;
 
       el.style.transform = `translate3d(calc(-50% + ${x}vw), calc(-50% + ${y}vh), ${z.toFixed(1)}px) scale(${scale.toFixed(3)})`;
@@ -74,11 +81,50 @@
     });
   }
 
+  let snapTimer = null;
+  let snapping = false;
+
+  function trySnap() {
+    if (snapping) return;
+    const slot = SLOT();
+    const totalHeight = count * slot;
+    const sectionTop = scrollSection.getBoundingClientRect().top + window.scrollY;
+    const progress = window.scrollY - sectionTop;
+
+    // Only snap while inside the gallery itself — leave the intro/outro
+    // sections free to scroll through without being pulled back in.
+    if (progress < 0 || progress > totalHeight) return;
+
+    const nearestIndex = Math.min(count - 1, Math.max(0, Math.round(progress / slot - 0.5)));
+    const target = Math.round(sectionTop + (nearestIndex + 0.5) * slot);
+
+    if (Math.abs(window.scrollY - target) < 2) return;
+
+    snapping = true;
+    window.scrollTo({ top: target, behavior: REDUCE_MOTION ? "auto" : "smooth" });
+
+    const clearSnap = () => {
+      snapping = false;
+      window.removeEventListener("scrollend", clearSnap);
+    };
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", clearSnap, { once: true });
+    } else {
+      setTimeout(clearSnap, 500);
+    }
+  }
+
+  function scheduleSnap() {
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(trySnap, SNAP_IDLE_MS);
+  }
+
   function onScroll() {
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(update);
     }
+    if (!snapping) scheduleSnap();
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });

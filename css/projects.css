@@ -95,15 +95,21 @@
 }
 
 .orbit-item__cta {
-  display: block;
-  margin-top: 10px;
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 18px auto 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #10132b;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateY(6px) scale(0.8);
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .orbit-item.is-active {
@@ -117,7 +123,8 @@
 
 .orbit-item.is-active .orbit-item__cta {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.55), 0 0 34px rgba(125, 211, 252, 0.4);
 }
 
 .projects-end {

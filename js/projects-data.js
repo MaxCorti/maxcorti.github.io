@@ -18,27 +18,24 @@
 
 const PROJECTS = [
   {
-    slug: "project-one",
-    title: "Project One",
-    tagline: "One-line description of what this project does and why it exists.",
-    tech: ["TypeScript", "React", "Node.js"],
+    // TODO: replace every placeholder value below with the real AURA details.
+    slug: "aura",
+    title: "AURA",
+    tagline: "TODO — one-line description of what AURA does and why it exists.",
+    tech: ["TODO"], // e.g. ["Python", "React", "PostgreSQL"]
     links: {
-      github: "https://github.com/maxcorti/project-one",
+      github: "https://github.com/maxcorti/aura", // fix if the repo name/org differs
       demo: "",
     },
     summary: [
-      "Replace this with a short overview of the project: what problem it solves, who it's for, and the overall approach you took.",
-      "A second paragraph can cover scale, constraints, or anything that gives context to the diagrams and contributions below.",
+      "TODO — what AURA is, who it's for, and the overall approach.",
     ],
     contributions: [
-      "Describe a specific piece you built or owned (e.g. \"designed the REST API and its auth flow\").",
-      "Describe another concrete contribution — be specific about your role if this was a team project.",
-      "Add as many bullets as needed.",
+      "TODO — specific things you personally built or owned on AURA.",
     ],
-    workflow: ["Input", "Processing", "Output"],
+    workflow: ["TODO step 1", "TODO step 2", "TODO step 3"],
     lessons: [
-      "What you'd do differently next time, or a specific technical lesson learned.",
-      "A second lesson — tools, architecture decisions, or process takeaways.",
+      "TODO — what you learned building AURA.",
     ],
   },
   {
