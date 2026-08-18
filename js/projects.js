@@ -13,7 +13,12 @@
   // Distance (in px, ~viewport heights) the user must scroll to move
   // one project from "not yet reached" through "centered" to "passed".
   const VH = () => window.innerHeight;
-  const SLOT = () => VH() * 0.85;
+  const SLOT = () => VH() * 0.7;
+
+  // How far along the arc a neighbouring project sits. Above 1.0 the
+  // adjacent items stop short of the arc's vanishing ends, so the next
+  // project stays faintly visible while you're on the current one.
+  const ARC_SPAN = 1.45;
 
   const LEFT_BIAS_VW = 3; // slight leftward rest position at the far ends of the arc
   const RIGHT_BULGE_VW = 15; // how far right it swings when centered
@@ -54,7 +59,7 @@
     items.forEach((el, i) => {
       const centerAt = (i + 0.5) * slot;
       const delta = progress - centerAt;
-      const halfRange = slot * 0.62;
+      const halfRange = slot * ARC_SPAN;
       const clamped = Math.max(-1, Math.min(1, delta / halfRange));
       const theta = clamped * (Math.PI / 2); // -90deg..90deg in radians
 
@@ -62,9 +67,10 @@
       const sinT = Math.sin(theta);
 
       const scale = 0.38 + 0.62 * cosT;
-      const opacity = Math.max(0, Math.pow(cosT, 1.4));
+      // Steep falloff keeps the neighbours present but clearly secondary.
+      const opacity = Math.max(0, Math.pow(cosT, 1.8));
       const z = -460 * (1 - cosT);
-      const y = -sinT * 46; // vh units, applied below
+      const y = -sinT * 33; // vh units, applied below
       // Arc bows right: slightly left of center at the far ends,
       // sweeping to its rightmost point exactly when centered.
       const x = -LEFT_BIAS_VW + RIGHT_BULGE_VW * cosT;
@@ -75,7 +81,9 @@
       el.style.filter = opacity < 0.02 ? "none" : `blur(${blur.toFixed(1)}px)`;
       el.style.zIndex = String(1000 - Math.round(Math.abs(z)));
 
-      const isActive = Math.abs(clamped) < 0.16;
+      // Keyed off raw scroll distance so the clickable window stays tight
+      // regardless of how wide the arc is spread.
+      const isActive = Math.abs(delta) < slot * 0.25;
       el.classList.toggle("is-active", isActive);
       el.style.pointerEvents = opacity < 0.05 ? "none" : isActive ? "auto" : "none";
     });

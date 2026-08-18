@@ -11,8 +11,16 @@
   function launch() {
     if (launched) return;
     launched = true;
-    orbWrap.classList.add("launching");
     orb.setAttribute("aria-disabled", "true");
+
+    // The intro animation uses fill-mode `both`, and animated values beat
+    // normal declarations — so it must be cleared before the flight, or
+    // the wrap's transform never changes and the orb slides across at
+    // full size. Reflow between the two class changes so the browser
+    // registers the pinned start position and actually transitions.
+    orbWrap.classList.add("flight-ready");
+    void orbWrap.offsetWidth;
+    orbWrap.classList.add("launching");
 
     const DESTINATION = "projects.html";
     const FALLBACK_DELAY = 950;
