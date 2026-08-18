@@ -143,15 +143,20 @@
 }
 
 /* ---------- Auto-generated workflow diagram ---------- */
+/* Single row that scrolls inside itself rather than wrapping — a wrapped
+   row leaves a dangling arrow at the line break. */
 .flow-diagram {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
   gap: 10px;
   padding: 28px 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.02);
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .flow-step {
@@ -188,6 +193,26 @@
   font-size: 1.2rem;
   opacity: 0.7;
   flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* Narrow screens: stack the steps vertically with downward arrows,
+   which reads better than a long sideways scroll on a phone. */
+@media (max-width: 640px) {
+  .flow-diagram {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: visible;
+  }
+
+  .flow-step {
+    min-width: 0;
+  }
+
+  .flow-arrow {
+    margin-top: 0;
+    transform: rotate(90deg);
+  }
 }
 
 .detail__not-found {
