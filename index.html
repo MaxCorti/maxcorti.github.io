@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Max Corti — Portfolio</title>
+  <meta name="description" content="Max Corti — software developer. Explore my projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="nebula"></div>
+
+  <main class="stage">
+    <div class="orb-wrap" id="orbWrap">
+      <button class="orb" id="orb" aria-label="Enter portfolio — go to projects">
+        <span class="orb__shine"></span>
+        <span class="orb__ring"></span>
+        <span class="orb__photo-clip">
+          <img
+            class="orb__photo"
+            id="orbPhoto"
+            src="assets/profile.jpg"
+            alt="Max Corti"
+            onerror="this.style.display='none'; document.getElementById('orbInitials').style.display='flex';"
+          />
+          <span class="orb__initials" id="orbInitials">MC</span>
+        </span>
+      </button>
+      <div class="orb__label">
+        <div class="orb__name">
+          <span>Max</span><span>Corti</span>
+        </div>
+        <p class="orb__title">Software Developer</p>
+        <p class="orb__hint">Click the orb to enter</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/starfield.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

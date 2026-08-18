@@ -1,0 +1,144 @@
+/* ============================================================
+   Base / shared styles — space background, typography, orb,
+   nav button. Loaded on every page.
+   ============================================================ */
+
+:root {
+  --bg-deep: #05060f;
+  --bg-deep-2: #0a0c1c;
+  --accent-cyan: #7dd3fc;
+  --accent-violet: #a78bfa;
+  --accent-pink: #f472b6;
+  --text-primary: #f4f5fb;
+  --text-muted: #9aa1c2;
+  --glow: 0 0 40px rgba(125, 211, 252, 0.35);
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+p {
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ---------- Starfield canvas: fixed full-bleed background ---------- */
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: radial-gradient(ellipse at 50% 0%, #10132b 0%, var(--bg-deep) 60%, #020208 100%);
+}
+
+/* Soft nebula glows layered above the star canvas, below content */
+.nebula {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(600px 400px at 15% 20%, rgba(167, 139, 250, 0.10), transparent 70%),
+    radial-gradient(700px 500px at 85% 75%, rgba(125, 211, 252, 0.09), transparent 70%),
+    radial-gradient(500px 400px at 60% 10%, rgba(244, 114, 182, 0.06), transparent 70%);
+}
+
+/* ---------- Persistent "home orb" nav button (top-left, on inner pages) ---------- */
+.home-orb {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 50;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  background:
+    radial-gradient(circle at 35% 30%, #dff3ff 0%, var(--accent-cyan) 35%, var(--accent-violet) 75%, #4c3a91 100%);
+  box-shadow: 0 0 18px rgba(125, 211, 252, 0.55), 0 0 40px rgba(167, 139, 250, 0.35);
+  animation: home-orb-pulse 4s ease-in-out infinite, home-orb-enter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.home-orb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 26px rgba(125, 211, 252, 0.75), 0 0 55px rgba(167, 139, 250, 0.5);
+}
+
+.home-orb__photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-orb__initials {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #10132b;
+}
+
+@keyframes home-orb-enter {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes home-orb-pulse {
+  0%, 100% { box-shadow: 0 0 18px rgba(125, 211, 252, 0.55), 0 0 40px rgba(167, 139, 250, 0.35); }
+  50% { box-shadow: 0 0 26px rgba(125, 211, 252, 0.8), 0 0 60px rgba(167, 139, 250, 0.55); }
+}
+
+/* ---------- Generic scroll hint ---------- */
+.scroll-hint {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.8;
+  animation: hint-bob 2.2s ease-in-out infinite;
+}
+
+@keyframes hint-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.4);
+}

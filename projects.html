@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Max Corti</title>
+  <meta name="description" content="Scroll through Max Corti's projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/projects.css" />
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="nebula"></div>
+
+  <button class="home-orb" id="homeOrb" aria-label="Back to home" onclick="window.location.href='index.html'">
+    <img
+      class="home-orb__photo"
+      src="assets/profile.jpg"
+      alt="Home"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    />
+    <span class="home-orb__initials">MC</span>
+  </button>
+
+  <header class="projects-intro">
+    <h1 class="projects-title" id="projectsTitle">Projects</h1>
+    <p class="scroll-hint">Scroll to explore ↓</p>
+  </header>
+
+  <section class="orbit-scroll" id="orbitScroll">
+    <div class="orbit-sticky">
+      <div class="orbit-perspective" id="orbitPerspective">
+        <!-- JS injects one .orbit-item per project from PROJECTS -->
+      </div>
+    </div>
+  </section>
+
+  <footer class="projects-end">
+    <p>That's everything — for now.</p>
+  </footer>
+
+  <script src="js/starfield.js"></script>
+  <script src="js/projects-data.js"></script>
+  <script src="js/projects.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+/* ============================================================
+   Projects gallery — 3D title entrance + scroll-driven semicircle
+   arc of project names.
+   ============================================================ */
+
+.projects-intro {
+  height: 60vh;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  perspective: 1400px;
+  text-align: center;
+}
+
+.projects-title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(120deg, #fff 0%, var(--accent-cyan) 45%, var(--accent-violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.35));
+  animation: title-fly-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-style: preserve-3d;
+}
+
+@keyframes title-fly-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, -1400px) rotateX(25deg) scale(0.3);
+    filter: blur(14px) drop-shadow(0 0 0 transparent);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+    filter: blur(0) drop-shadow(0 0 30px rgba(125, 211, 252, 0.35));
+  }
+}
+
+.projects-intro .scroll-hint {
+  animation: hint-bob 2.2s ease-in-out infinite, hint-fade-in 1s ease 1.3s both;
+}
+
+@keyframes hint-fade-in {
+  from { opacity: 0; }
+}
+
+/* ---------- The scroll-driven arc ---------- */
+
+.orbit-scroll {
+  position: relative;
+  /* height set inline per-project-count in JS via --orbit-count */
+  height: calc(var(--orbit-count, 3) * 85vh);
+}
+
+.orbit-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  perspective: 1600px;
+}
+
+.orbit-perspective {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.orbit-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  will-change: transform, opacity, filter;
+  text-align: center;
+  white-space: nowrap;
+  cursor: default;
+  transition: text-shadow 0.3s ease;
+}
+
+.orbit-item__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 3.4rem);
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.orbit-item__cta {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.orbit-item.is-active {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.orbit-item.is-active .orbit-item__title {
+  text-shadow: 0 0 30px rgba(125, 211, 252, 0.6), 0 0 60px rgba(167, 139, 250, 0.4);
+}
+
+.orbit-item.is-active .orbit-item__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.projects-end {
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
